@@ -1,0 +1,29 @@
+
+:root {  /* === Light mode theme === */
+  --background       : #FFFFFF;
+  --gray             : #777777;
+  --light-gray       : #909090;
+  --red              : #E53935;
+  --red-10a          : #e539351a;
+  --yellow           : #FFC107;
+  --yellow-10a       : #ffc1071a;
+  --green            : #4CAF50;
+
+  /* Text */
+  --txt-color        : #333333;
+  --txt-gray         : #777777;
+  --txt-red          : #E53935;
+  --txt-green        : #4CAF50;
+  --txt-yellow       : #cb912f;
+
+  /* Section */
+  --section-color    : #e9e9e9;
+  --section-green    : #66e04c4d;
+
+  /* Button */
+  --btn-color        : #DADADA;
+  --btn-red          : #E53935;
+  --btn-green        : #4CAF50;
+  --btn-yellow       : #FFC107;
+  
+}

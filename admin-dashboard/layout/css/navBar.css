@@ -1,0 +1,170 @@
+nav#navContainer.nav-hidden nav#navBarElement {
+  translate: 0 -70px;
+}
+
+nav#navBarElement {
+  width: 100%;
+  padding: 10px 20px;
+  background-color: var(--section-color);
+  transition: var(--trans-fast);
+
+  /* Position */
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9;
+}
+nav#navBarElement .logo i-[type=controller] {
+  width: 50px;
+  height: 50px;
+  color: var(--primary)
+}
+nav#navBarElement .logo .name {
+  color: var(--primary)
+}
+nav#navBarElement .navLinks {
+  display: flex;
+  align-items: center;
+  gap: 20px 
+}
+nav#navBarElement .navLinks a {
+  padding: 10px 7px;
+  border-radius: 5px;
+
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  
+  text-decoration: none;
+  font-size: var(--body1);
+  line-height: var(--line-height);
+}
+nav#navBarElement .navLinks a i- {
+  display: none;
+}
+nav#navBarElement .navLinks button.settings p {
+  display: none;
+}
+nav#navBarElement .navLinks a.active {
+  color: var(--secondary);
+  pointer-events: none;
+}
+nav#navBarElement .navLinks a:hover {
+  color: var(--secondary);
+}
+nav#navBarElement button:hover {
+  background-color: var(--btn-color)
+}
+nav#navBarElement button.active {
+  background-color: var(--primary);
+}
+
+/* Small screens */
+nav#navBarElement .mobile-btns {
+  display: none;
+}
+
+/* Ruya Logo */
+nav#navBarElement .royaLogo {
+  display: none !important;
+  margin-top: auto;
+  background-color: transparent !important;
+}
+nav#navBarElement .royaLogo:hover { background-color: var(--btn-color) !important } 
+
+@media screen and (max-width: 729px) {
+  nav#navBarElement .mobile-btns {
+    display: flex;
+  }
+  nav#navBarElement .navLinks {
+    width: 100%;
+    height: calc(100vh - var(--navBar-height));
+    background-color: var(--section-color);
+    padding: 20px 15px;
+    border-top: var(--border-wd) solid var(--txt-color);
+
+    opacity: 0;
+    display: none;
+    transition: var(--trans-fast);
+    
+    flex-direction: column;
+    align-items: start;
+    gap: 8px;
+
+
+    /* Position */
+    position: absolute;
+    top: calc(var(--navBar-height) - 10px);
+    left: 0;
+  }
+  nav#navBarElement .navLinks a,
+  nav#navBarElement .navLinks button{
+    background-color: var(--btn-color);
+    width: 100%;
+  } 
+  nav#navBarElement .navLinks div {width: 100%;}
+  nav#navBarElement .navLinks button.settings:active {
+    scale: 1;
+  }
+  nav#navBarElement .navLinks button.settings p {
+    display: flex;
+  }
+  nav#navBarElement .navLinks a i- {
+    display: flex;
+  }
+
+  nav#navBarElement.active button.menu {
+    background-color: var(--primary);
+    color: var(--white)
+  }
+  nav#navBarElement.active .navLinks {
+    display: flex;
+  }
+  nav#navBarElement.active .navLinks.show {
+    opacity: 1;
+    top: calc(var(--navBar-height) + 0px);
+  }
+
+  /* Ruya Logo */
+  nav#navBarElement .royaLogo { display: flex !important }
+}
+
+.settingsElement {
+  max-width: 864px;
+  width: calc(100% - 30px);
+  height: 460px;
+  padding: 20px;
+  background-color: var(--section-color);
+  border-radius: 10px;
+  
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.settingsElement .container {
+  padding: 0 30px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+@media screen and (max-width: 729px), screen and (max-height: 560px) {
+  .settingsElement {
+    max-width: 100%;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+}
+.settingsElement section.hidden {
+  display: none;
+}
+
+/* Accoutn settings */
+.settingsElement .profile {
+  padding: 10px 15px;
+}
+.settingsElement .profile img {
+  width: 50px;
+  height: 50px;
+}

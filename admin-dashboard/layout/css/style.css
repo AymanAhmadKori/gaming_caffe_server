@@ -1,0 +1,433 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Rubik", serif;
+  -webkit-tap-highlight-color: transparent;
+}
+*:not(i-,i- *) {color: var(--txt-color)}
+html, body {
+  overscroll-behavior: none;
+}
+
+body { min-height: 100vh }
+body[data-theme = 'light'] {background-color: #FFFFFF}
+body {background-color: var(--background)}
+
+body[data-direction-rtl],
+body[data-direction-rtl] *
+{ direction: rtl }
+
+/* === Display === */
+:root {
+  /* Gap */
+  --gap-2    :  2px;
+  --gap-3    :  3px;
+  --gap-5    :  5px;
+  --gap-7    :  7px;
+  --gap-10   : 10px;
+  --gap-15   : 15px;
+  --gap-20   : 20px;
+  --gap-25   : 25px;
+  --gap-30   : 30px;
+
+  /* Padding */
+  --pad-3    :  3px;
+  --pad-5    :  5px;
+  --pad-7    :  7px;
+  --pad-10   : 10px;
+  --pad-15   : 15px;
+  --pad-20   : 20px;
+  --pad-25   : 25px;
+  --pad-30   : 30px;
+  
+  /* Radius */
+  --radius-3      :      3px;
+  --radius-5      :      5px;
+  --radius-10     :     10px;
+  --radius-15     :     15px;
+  --radius-full   :   9999px;
+
+  /* Icons */
+  --icon-vsmall    : 19px;
+  --icon-small     : 25px;
+  --icon-medium    : 32px;
+  --icon-large     : 40px;
+
+  /* Border */
+  --border-wd         : 1.25px;
+  --border-wd-focus   : 2px;
+
+  /* Transition */
+  --trans-fast : 150ms;
+  --trans-medium : 250ms;
+  --trans-slow : 500ms;
+  
+  
+}
+
+/* Gaps */
+.gap-2   {gap:    var(--gap-2)}
+.gap-3   {gap:    var(--gap-3)}
+.gap-5   {gap:    var(--gap-5)}
+.gap-7   {gap:    var(--gap-7)}
+.gap-10  {gap:   var(--gap-10)}
+.gap-15  {gap:   var(--gap-15)}
+.gap-20  {gap:   var(--gap-20)}
+.gap-25  {gap:   var(--gap-25)}
+.gap-30  {gap:   var(--gap-30)}
+
+/* Padding */
+.pad-3   {padding:    var(--pad-3)}
+.pad-5   {padding:    var(--pad-5)}
+.pad-7   {padding:    var(--pad-7)}
+.pad-10  {padding:   var(--pad-10)}
+.pad-15  {padding:   var(--pad-15)}
+.pad-20  {padding:   var(--pad-20)}
+.pad-25  {padding:   var(--pad-25)}
+.pad-30  {padding:   var(--pad-30)}
+
+/* Padding */
+.radius-3     {border-radius:   var(--radius-3)}
+.radius-5     {border-radius:   var(--radius-5)}
+.radius-10    {border-radius:   var(--radius-10)}
+.radius-15    {border-radius:   var(--radius-15)}
+.radius-full  {border-radius:   var(--radius-full)}
+
+/* Directions */
+.dir-ltr {direction: ltr !important}
+.dir-rtl {direction: rtl !important}
+
+/* Icons */
+i- {
+  /* Display */
+  pointer-events: none;
+  user-select: none;
+  overflow: hidden;
+  
+  display: grid;
+  place-items: center;
+}
+i-:not(.not-fill) svg {
+  width: 100%;
+  height: 100%;
+}
+i-.vsmall   {width: var(--icon-vsmall)  !important;   height: var(--icon-vsmall)  !important}
+i-.small    {width: var(--icon-small)   !important;   height: var(--icon-small)   !important}
+i-.medium   {width: var(--icon-medium)  !important;   height: var(--icon-medium)  !important}
+i-.large    {width: var(--icon-large)   !important;   height: var(--icon-large)   !important}
+
+
+/* === System colors === */
+:root {
+
+  --primary        : #7209B7;
+  --secondary      : #BF00FF;
+  --blue           : #0094FF;
+  --white          : #FFFFFF;
+  --black          : #333333;
+  --overlay        : #00000099;
+
+  /* Text */
+  --txt-white    : #FFFFFF;
+  --txt-black    : #333333;
+  --txt-blue     : #0094FF;
+
+  /* Section */
+  --section-white      : #e9e9e9;
+  --section-black      : #2C2C2C;
+  --section-red        : #E53935;
+  --section-yellow     : #FFE500;
+
+  /* buttons */
+  --btn-white           : #DADADA;
+  --btn-black           : #333333;
+  --btn-primary         : #7209B7;
+
+  --selection-color:  rgba(191, 0, 255, .4);
+  
+}
+:root {  /* === Dark mode theme defualt === */
+  --background       : #1E1E1E;
+  --gray             : #AAAAAA;
+  --light-gray       : #BEBEBE;
+  --red              : #FF4848;
+  --red-10a          : #ff48481a;
+  --yellow           : #FFE500;
+  --yellow-10a       : #ffe5001a;
+  --green            : #77FF6B;
+
+  /* Text */
+  --txt-color        : #FFFFFF;
+  --txt-gray         : #AAAAAA;
+  --txt-red          : #FF4848;
+  --txt-green        : #77FF6B;
+  --txt-yellow       : #FFE500;
+
+  /* Section */
+  --section-color    : #2C2C2C;
+  --section-green    : #77ff6b4d;
+
+  /* Button */
+  --btn-color        : #333333;
+  --btn-red          : #FF4848;
+  --btn-green        : #77FF6B;
+  --btn-yellow       : #FFE500;
+  
+}
+
+/* Selection Color */
+::selection {
+  background-color: var(--selection-color);
+  color: var(--txt-color);
+}
+
+/* mark color */
+mark {
+  background-color: var(--yellow);
+  color: var(--txt-black);
+}
+/* === Text styles === */
+:root {
+  /* == Headers == */
+  --h1   : 48px;
+  --h2   : 40px;
+  --h3   : 33px;
+  --h4   : 28px;
+  --h5   : 23px;
+  --h6   : 19px;
+
+  /* Body text */
+  --body1   : 16px;
+  --body2   : 13px;
+  --body3   : 11px;
+
+  /* Line height */
+  --line-height : 120%;
+
+  /* Weight */
+  --txt-bold : 700;
+}
+
+/* Text */
+/*Headers*/
+h1,h2,h3,h4,h5,h6 {
+  line-height: var(--line-height);
+  font-weight: var(--txt-bold);
+}
+
+/* Body text */
+b            {font-weight: var(--txt-bold)}
+.txt         {line-height: var(--line-height)}
+.txt.bold    {font-weight: var(--txt-bold)}
+h1           {font-size: var(--h1)}
+h2           {font-size: var(--h2)}
+h3           {font-size: var(--h3)}
+h4           {font-size: var(--h4)}
+h5           {font-size: var(--h5)}
+h6           {font-size: var(--h6)}
+.txt.body1   {font-size: var(--body1)}
+.txt.body2   {font-size: var(--body2)}
+.txt.body3   {font-size: var(--body3)}
+
+/* Decoration */
+.txt.line-none {text-decoration: none}
+.txt.line-under {text-decoration: underline}
+.txt.line-thro {
+  color: var(--gray);
+  text-decoration: line-through
+}
+
+/* Text Align */
+h1.txt-start,
+h2.txt-start,
+h3.txt-start,
+h4.txt-start,
+h5.txt-start,
+h6.txt-start,
+.txt.txt-start {text-align: start}
+
+h1.txt-center,
+h2.txt-center,
+h3.txt-center,
+h4.txt-center,
+h5.txt-center,
+h6.txt-center,
+.txt.txt-center {text-align: center}
+
+h1.txt-end,
+h2.txt-end,
+h3.txt-end,
+h4.txt-end,
+h5.txt-end,
+h6.txt-end,
+.txt.txt-end {text-align: end}
+
+/* Text Wrap */
+h1.txt-wrap,
+h2.txt-wrap,
+h3.txt-wrap,
+h4.txt-wrap,
+h5.txt-wrap,
+h6.txt-wrap,
+.txt.txt-wrap {text-wrap: wrap}
+
+h1.txt-noWrap,
+h2.txt-noWrap,
+h3.txt-noWrap,
+h4.txt-noWrap,
+h5.txt-noWrap,
+h6.txt-noWrap,
+.txt.txt-noWrap {text-wrap: noWrap}
+
+/* Text Colors */
+.txt-color-color {color: var(--txt-color)}
+.txt-color-black {color: var(--txt-black)}
+.txt-color-white {color: var(--txt-white)}
+.txt-color-green {color: var(--txt-green)}
+.txt-color-gray  {color: var(--txt-gray)}
+.txt-color-red   {color: var(--txt-red)}
+.txt-color-current   {color: currentColor}
+
+/* Transform */
+.txt.to-upper {text-transform: uppercase}
+.txt.to-lower {text-transform: lowercase}
+.txt.capitalize {text-transform: capitalize}
+
+/* === Flex box === */
+.flex   {display: flex}
+
+/* Align items */
+.flex.align-start     {align-items: start}
+.flex.align-center    {align-items: center}
+.flex.align-end       {align-items: end}
+
+/* Justify content */
+.flex.just-start    {justify-content: start}
+.flex.just-center   {justify-content: center}
+.flex.just-end      {justify-content: end}
+
+.flex.just-between    {justify-content: space-between}
+.flex.just-around     {justify-content: space-around}
+.flex.just-evenly     {justify-content: space-evenly}
+
+/* Direction */
+.flex.column   {flex-direction: column}
+.flex.row      {flex-direction: column}
+
+/* Grow */
+.flex.grow-1    {flex: 1}
+.flex.grow-2    {flex: 2}
+.flex.grow-3    {flex: 3}
+.flex.grow-4    {flex: 4}
+.flex.grow-5    {flex: 5}
+
+/* Wrap */
+.flex.wrap        {flex-wrap: wrap}
+.flex.nowrap      {flex-wrap: nowrap}
+
+/* === Position === */
+.pos-fixed      {position: fixed}
+.pos-absolute   {position: absolute}
+.pos-relative   {position: relative}
+
+/* === No scroll bar === */
+.noScrollBar {
+  overflow: auto; /* يسمح بالتمرير إذا لزم الأمر */
+  scrollbar-width: none; /* لإخفاء شريط التمرير في Firefox */
+}
+.noScrollBar::-webkit-scrollbar {
+  display: none; /* يخفي شريط التمرير في Chrome و Safari */
+}
+
+
+/* === Real time alerts === */
+#Real_Time_alerts_container {
+  /* Display */
+  max-width: 290px;
+  width: 100%;
+  padding: 0 var(--pad-10);
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  
+  /* position */
+  position: fixed;
+  z-index: 10;
+  left: 50%;
+  top: 80px;
+  transform: translateX(-50%);
+}
+#Real_Time_alerts_container .alert {
+  /* Display */
+  padding: var(--pad-10);
+  border-radius: var(--radius-5);
+  opacity: 0;
+  transition: var(--trans-fast);
+  color: var(--txt-black);
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: var(--gap-10);
+
+  /* Position */
+  position: relative;
+  top: -10px;
+}
+#Real_Time_alerts_container .alert.show {
+  opacity: 1;
+  top: 0;
+}
+#Real_Time_alerts_container .alert * {
+  user-select: none;
+  pointer-events: none;
+}
+#Real_Time_alerts_container .alert .message {
+  /* Display */
+  width: 100%;
+  text-align: center;
+  color: currentColor;
+
+  /* font */
+  font-size: var(--body1);
+}
+/* alert types */
+/* warning */
+#Real_Time_alerts_container .alert.error   {background-color: var(--red)}
+#Real_Time_alerts_container .alert.success {background-color: var(--primary); color: var(--txt-white)}
+#Real_Time_alerts_container .alert.warning {background-color: var(--yellow)}
+
+/* === Overlay === */
+.overlayElement {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--overlay);
+  
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100000;
+}
+
+/* === Page container === */
+.pageContainer { margin: 0 auto }
+@media screen and (max-width: 767px) {
+  .pageContainer {width: 100%}
+}@media screen and (min-width: 768px) {
+  .pageContainer {width: 750px}
+}@media screen and (min-width: 990px) {
+  .pageContainer {width: 970px}
+}@media screen and (min-width: 1200px) {
+  .pageContainer {width: 1170px}
+}
+
+/* Display none */
+.display-none {display: none !important}
+
+/* Width classes */
+.fit-width {width: fit-content}
+.fill-width {width: 100%}

@@ -1,0 +1,231 @@
+/* === Inputs === */
+
+.input-compo {  
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: var(--gap-5);
+}
+.input-compo label {
+  /* Display */
+  width: fit-content;
+  padding: 0 var(--pad-3)
+}
+/* input box */
+.input-compo .input {
+  /* Display */
+  width: 100%;
+  padding: var(--pad-10);
+  
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  /* Border */
+  border-radius: var(--radius-3);
+  outline: var(--border-wd) solid;
+  border: none
+}
+.input-compo .input.focus {
+  outline-width: var(--border-wd-focus)
+}
+.input-compo .input .separator {
+  width: 3px;
+  height: 15px;
+  margin: 0 5px;
+  background-color: var(--txt-gray);
+  border-radius: var(--radius-3);
+}
+/* <input> */
+.input-compo .input input {
+  /* Display */
+  width: 100%;
+  padding: 0 var(--pad-5);
+  background-color: transparent;
+  border: none;
+  outline: none;
+
+  /* Font */
+  font-size: var(--body1);
+  line-height: var(--line-height)
+}
+
+/* type Tel */
+.input-compo .input .country {
+  padding: 0 var(--pad-3);
+
+  display: flex;
+  align-items: center;
+  gap: var(--gap-5);
+}
+/* set direction to "ltr" */
+.input-compo:has(input[type='tel']) .input, 
+.input-compo:has(input[type='tel']) .input *{
+  direction: ltr;
+}
+body[data-direction-rtl] .input-compo input[type='tel'] {
+  text-align: end;
+}
+
+/* type Number */
+.input-compo.typeNumber .input {
+  max-width: 140px;
+  width: 125px;
+  padding: var(--pad-7);
+  border-radius: var(--radius-5);
+}
+.input-compo .input .counter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-3);
+}
+/* Remove arrows from input type [Number] */
+.input-compo input[type="number"]::-webkit-inner-spin-button, 
+.input-compo input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0
+}
+.input-compo input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Remove date icon from input type [Date & dateTime & dateTime-local] */
+input-compo input[type="date"]::-webkit-calendar-picker-indicator,
+input-compo input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+input-compo input[type="datetime"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+input-compo input[type="date"],
+input-compo input[type="datetime-local"],
+input-compo input[type="datetime"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+/* Type date */
+input-compo.typeDate .input {
+  padding: 6px 10px;
+}
+
+/* type Checkbox & Toggle switch*/
+.input-compo.typeCheckbox,
+.input-compo.typeToggle-Switch {
+  padding: 0;
+  width: fit-content;
+  height: fit-content;
+}
+.input-compo.typeCheckbox input,
+.input-compo.typeToggle-Switch input {
+  display: none;
+}
+
+/* toggle */
+.input-compo.typeToggle-Switch .toggle {
+  height: var(--icon-small);
+  width: calc(2 * var(--icon-small));
+  transition: var(--trans-fast);
+
+  background-color: var(--light-gray);
+  border-radius: var(--radius-full);
+
+  /* Position */
+  position: relative;
+}
+
+.input-compo.typeToggle-Switch .toggle .circle {
+  
+  width: var(--icon-vsmall);
+  height: var(--icon-vsmall);
+
+  background-color: var(--black);
+  border-radius: var(--radius-full);
+  transition: var(--trans-fast);
+
+  /* Position */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+  left: 4px;
+  right: auto;
+} 
+.input-compo.typeToggle-Switch .toggle.active { background-color: var(--secondary)}
+.input-compo.typeToggle-Switch .toggle.active .circle {
+  left: 27px;
+}
+
+/* type Inline */
+.input-compo.typeInline .input {
+  padding: var(--pad-5) var(--pad-7);
+}
+.input-compo.typeInline .input input {padding: 0}
+.input-compo.typeInline .input input.txt-red {color: var(--txt-red)}
+
+/* rtl direction */
+body[data-direction-rtl] .input-compo.typeToggle-Switch .toggle .circle {
+  left: auto;
+  right: 4px;
+}
+body[data-direction-rtl]  .input-compo.typeToggle-Switch .toggle.active .circle {
+  right: 27px;
+}
+
+
+
+/* === Buttons === */
+button {
+  /* Display */
+  background-color: transparent;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  gap: var(--gap-5);
+  
+  /* Border */
+  border: none;
+  border-radius: var(--radius-5)
+}
+button:hover {opacity: 90%}
+button:active {
+  opacity: 80%;
+  scale: .95;
+}
+button * {
+  pointer-events: none;
+  user-select: none
+}
+
+/* Sizes */
+button.small  {padding: var(--pad-5)}
+button.medium {padding: var(--pad-7)}
+button.large  {padding: var(--pad-10) var(--pad-10)}
+
+/* Icon sizes */
+button i-   {width: var(--icon-small); height: var(--icon-small)}
+button.small i-    {width: var(--icon-vsmall); height: var(--icon-vsmall)}
+button.medium i-   {width: var(--icon-small); height: var(--icon-small)}
+button.large i-    {width: var(--icon-small); height: var(--icon-small)}
+
+button.bgc           {background-color: var(--btn-color)}
+button.bgc-white     {background-color: var(--btn-white)}
+button.bgc-black     {background-color: var(--btn-black)}
+
+button.bgc-primary   {background-color: var(--btn-primary)}
+button.bgc-primary * {color: var(--txt-white)}
+
+button.bgc-red   {background-color: var(--btn-red)}
+button.bgc-red * {color: var(--txt-black)}
+
+button.bgc-green   {background-color: var(--btn-green)}
+button.bgc-green * {color: var(--txt-black)}
+
+button.bgc-yellow   {background-color: var(--btn-yellow)}
+button.bgc-yellow * {color: var(--txt-black)}
+
+button[disabled] {
+  pointer-events: none;
+  opacity: 50%
+}
