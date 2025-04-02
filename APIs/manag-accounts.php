@@ -89,5 +89,32 @@ $request_modes = [
 
   // Validation mode
   if(!in_array($mode, $request_modes)) error('invalid_mode');
+
+  switch ($mode) {
+    case 'getAll-accounts':
+      // Check limit validation
+      if( !isset($data['limit']) ) error('!isset_limit');
+        $limit = $data['limit'];
+
+        // Check if limit valid integer
+        if(!is_int(+$limit) || $limit <= 0) error('invalid_limit');
+      //
+
+      // Check except validation
+      if( !isset($data['except']) ) error('!isset_except');
+        $except = $data['except'];
+        
+        // Check if type of except is array
+        if(!is_array($except)) error('invalid_except: not-array');
+      
+        // Check except IDs
+        $types = array_unique(array_map('gettype', $except));
+        if(count($types) > 1 || $types[0] !== 'integer') error('invalid_except: value');
+      //
+    break;
+
+
+
+  }
   
 })();
