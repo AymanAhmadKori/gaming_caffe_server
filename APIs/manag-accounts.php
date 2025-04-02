@@ -54,3 +54,40 @@ function error(string $type) {
   }
 
 }
+
+// Request
+$request = file_get_contents('php://input');
+
+// Get request data
+$data = json_decode($request, true);
+
+// Request modes
+$request_modes = [
+  // Account
+  'getAll-accounts',
+  'search-account',
+  'ban-account',
+  'unBlock-account',
+
+  // Subscription
+  'set-sub',
+  'get-sub',
+  'cancel-sub',
+  'getAll-subs-history'
+];
+
+// Validate request data 
+(function(){
+  global $data;
+  global $request_modes;
+
+  // Check if manag mode exists \\
+  if(!isset($data['mode'])) error('!exists_mode');
+
+  // Get manage mode
+  $mode = $data['mode'];
+
+  // Validation mode
+  if(!in_array($mode, $request_modes)) error('invalid_mode');
+  
+})();
