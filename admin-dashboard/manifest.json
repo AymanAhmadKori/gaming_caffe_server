@@ -1,8 +1,8 @@
 {
-  "name": "TOP GAME",
-  "short_name": "TG",
+  "name": "TOP GAME Admin Panal",
+  "short_name": "TG Admin",
   "description": "",
-  "start_url": "/booking.html",
+  "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#333333",
   "theme_color": "#333333",
