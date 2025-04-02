@@ -237,6 +237,30 @@ define('search_account_modes',[
       if( !is_int($id) || $id < 0) error('invalid: id in ban-account || unblock-account mode');
     break;
 
+    case 'set-sub':
+      // Validate account_id
+      if( !isset($data['account_id']) ) error('!isset: account_id in set-sub mode');
+        $account_id = $data['account_id'];
+
+        if( !is_int($account_id) || $account_id < 0) error('invalid: account_id in set-sub mode');
+      //
+
+      // Validate plan_id
+      if( !isset($data['plan_id']) ) error('!isset: plan_id in set-sub mode');
+        $plan_id = $data['plan_id'];
+
+        if( !is_int($plan_id) || $plan_id < 0 ) error('invalid: plan_id in set-sub mode');
+      //
+
+      // Validate plan_cycles
+      if( !isset($data['plan_cycles']) ) error('!isset: plan_cycles in set-sub mode');
+        $plan_cycles = $data['plan_cycles'];
+
+        if( !is_int($plan_cycles) || $plan_cycles < 0) error('invalid: plan_cycles in set-sub mode');
+      //
+      
+    break;
+
   }
   
 })();
