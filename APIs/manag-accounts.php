@@ -31,3 +31,26 @@ include 'init.php';
   - - ** `except` 
   
 */
+
+// Error response
+function error(string $type) {
+  $message = function (string $message) {
+    echo json_encode(["error" => $message]);
+    exit();
+  };
+
+  switch($type) {
+    // === Undefined errors === \\
+    case '!exists_mode': $message("Undefined `mode`"); break;
+    case '!isset_limit':   $message("Undefined `limit`: limit is important in `getAll_account` mode"); break;
+    case '!isset_except':  $message("Undefined `except`: except is important in`getAll_account` mode"); break;
+
+    //=== Invalid errors === \\
+    case 'invalid_mode': $message("Invalid `mode`"); break;
+    case 'invalid_limit': $message("Invalid `limit`: Value moust be integer > 0"); break;
+    
+    case 'invalid_except: not-array': $message("Invalid `except`: type not array"); break;
+    case 'invalid_except: value': $message("Invalid `except`: All values moust be type of integer"); break;
+  }
+
+}
