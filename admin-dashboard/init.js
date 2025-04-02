@@ -214,8 +214,6 @@ const lang = {
     "مجانا": "Free",
     "المتابعة بـ": "Continue with",
     "جوجل": "Google",
-    "الرؤية": "Ruya",
-    "للحلول البرمجية": "for software solutions",
     "صورة الملف الشخصي": "Profile picture",
 
     // الإعدادات \\
@@ -250,86 +248,22 @@ const lang = {
 
     // عناوين \\
     "تم حظر هذا الحساب.": "This account has been banned.",
-
-    // إدارة المجموعات و الأصناف \\
-    "الفئات": "Categories",
-    "الفئة": "Category",
-    "إدارة المجموعات": "Manage groups",
-    "إدارة الفئة": "Manage category",
-    "كل الفئات": "All categories",
-    "فئة جديدة": "New category",
-    "مجموعة جديدة": "New group",
-    "إنشاء مجموعة": "Create group",
-    "إنشاء فئة": "Create category",
-    "السعر لكل دقيقة": "Price per Min",
-    "مجموعة الفئة": "Category's group",
-
-    // الحجوزات \\
-    "عرض الكل": "Show all",
-    "شاغر": "Vacant",
-    "محجوز": "Booked",
-    "التفاصيل": "Details",
-    "المدة": "Duration",
-    "وقت مفتوح": "Open time",
-    "وقت محدد": "Specific time",
-    "السعر": "Price",
-    "تعديل المدة": "Edit duration",
-    "إنهاء الحجز": "End booking",
-    "إلغاء الحجز": "Cancel duration",
-    "خروج": "Exit",
-    "بدأ": "Start",
-    "إيقاف مؤقت": "Pause",
-    "إستئناف": "Resume",
-    "تمديد بمقدار": "Extend by",
-    "تقليص بمقدار": "Reduce by",
-    "هل تريد إنهاء الحجز ؟": "Do you want to end the booking?",
-    "إجمالي المدة": "Total duration",
-    "إجمالي السعر": "Total price",
-    "نعم, إنهاء الحجز": "Yes, end booking",
-    "إنتقال الى صفحة المجموعات و الفئات": "Go to Groups & Categories page",
-    "عندما تنقر على 'نعم' كأنك لم تسجل الحجز من البداية": 
-        "When you click 'Yes' it's as if you never made the booking in the first place.",
-    "هل تريد إلغاء الحجز ؟": "Do you want to cancel the booking?",
-    "نعم, إلغاء الحجز": "Yes, cancel booking",
-
-    // الفواتير \\
-    "الإيرادات": "Revenue",
-    "إجمالي الوقت": "Total time",
-    "فترة زمنية": "Time period",
-    "تنزيل إيكسيل": "Download Excel",
-    "إنتقال الى صفحة الحجوزات": "Go to booking page",
-    "لا يوجد فواتير": "No bills",
     
     // العملات \\
     "د.ل": "LYD",
 
     // الصفحات \\
     "الرئيسية": "Home",
-    "الحجوزات": "Booking",
-    "المجموعات و الفئات": "Groups & Categories",
-    "الفواتير": "Bills",
+    "إدارة الحسابات": "Manage Accoutns",
+    "سجل الإشتراكات": "Subscription history",
     "الإعدادات": "Settings",
-    "الإشعارات": "Notifications",
     "تسجيل الدخول": "Login",
-    "تغيير الأيقونة": "Change icon",
     "حساب محظور": "Banned account",
 
     // رسائل التنبيه \\
-    // نجاح
-    "تم تحديث الأسم": "The name has been updated",
-    
-    // أخطاء
-    "الأسم مستخدم": "The name is used",
-    "لا يوجد مجموعات": "There's no groups",
-    "لا توجد فئات": "There's no categories",
-    
+    // نجاح    
+    // أخطاء    
     // تحذير
-    "هل تريد حذف": "Do you want to delete",
-    "عند حذف المجموعة سيتم فصلها عن الفئات المرتبطة بها !":
-        "When the group is deleted, it will be separated from its associated categories!",
-    "عند حذف الفئة لن تتمكن من إستعادتها مجدداً !":
-        "If you delete the category, you will not be able to recover it again!",
-
     // فشل
     "حدث خطأ. حاول مرة أخرى.": "An error occurred. Try again.",
 
