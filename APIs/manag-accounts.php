@@ -104,7 +104,7 @@ $request = file_get_contents('php://input');
 $data = json_decode($request, true);
 
 // Request modes
-$request_modes = [
+define('request_modes',[
   // Account
   'getAll-accounts',
   'search-account',
@@ -116,42 +116,47 @@ $request_modes = [
   'get-sub',
   'cancel-sub',
   'getAll-subs-history'
-];
+]);
+
+// Search account modes
+define('search_account_modes',[
+  'id',
+  'email'
+]);
 
 // Validate request data 
 (function(){
   global $data;
-  global $request_modes;
 
   // Check if manag mode exists \\
-  if(!isset($data['mode'])) error('!exists_mode');
+  if(!isset($data['mode'])) error('!exists: mode');
 
   // Get manage mode
   $mode = $data['mode'];
 
   // Validation mode
-  if(!in_array($mode, $request_modes)) error('invalid_mode');
+  if(!in_array($mode, request_modes)) error('invalid: mode');
 
   switch ($mode) {
     case 'getAll-accounts':
       // Check limit validation
-      if( !isset($data['limit']) ) error('!isset_limit');
+      if( !isset($data['limit']) ) error('!isset: limit');
         $limit = $data['limit'];
 
         // Check if limit valid integer
-        if(!is_int(+$limit) || $limit <= 0) error('invalid_limit');
+        if(!is_int(+$limit) || $limit <= 0) error('invalid: limit');
       //
 
       // Check except validation
-      if( !isset($data['except']) ) error('!isset_except');
+      if( !isset($data['except']) ) error('!isset: except');
         $except = $data['except'];
         
         // Check if type of except is array
-        if(!is_array($except)) error('invalid_except: not-array');
+        if(!is_array($except)) error('invalid: except not-array');
       
         // Check except IDs
         $types = array_unique(array_map('gettype', $except));
-        if(count($types) > 1 || $types[0] !== 'integer') error('invalid_except: value');
+        if(count($types) > 1 || $types[0] !== 'integer') error('invalid: except value');
       //
     break;
 
