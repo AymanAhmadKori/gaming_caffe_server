@@ -41,16 +41,58 @@ function error(string $type) {
 
   switch($type) {
     // === Undefined errors === \\
-    case '!exists_mode': $message("Undefined `mode`"); break;
-    case '!isset_limit':   $message("Undefined `limit`: limit is important in `getAll_account` mode"); break;
-    case '!isset_except':  $message("Undefined `except`: except is important in`getAll_account` mode"); break;
+    case '!exists: mode':
+      $message("Undefined `mode`");
+    break;
 
-    //=== Invalid errors === \\
-    case 'invalid_mode': $message("Invalid `mode`"); break;
-    case 'invalid_limit': $message("Invalid `limit`: Value moust be integer > 0"); break;
+    // getAll-accounts
+    case '!isset: limit':
+      $message("Undefined `limit`: limit is important in `getAll-accounts` mode");
+      break;
+    case '!isset: except':
+      $message("Undefined `except`: except is important in`getAll-accounts` mode");
+    break;
     
-    case 'invalid_except: not-array': $message("Invalid `except`: type not array"); break;
-    case 'invalid_except: value': $message("Invalid `except`: All values moust be type of integer"); break;
+    // search-account
+    case '!isset: by in search-account mode':
+      $message("Undefined `by`: by is important in`search-account` mode");
+      break;
+    case '!isset: id in search-account by id mode':
+      $message("Undefined `id`: id is important in`search-account` by id mode");
+      break;
+    case '!isset: email in search-account by email mode':
+      $message("Undefined `email`: email is important in`search-account` by email mode");
+    break;
+    
+    
+    //=== Invalid errors === \\
+    case 'invalid: mode':
+      $message("Invalid `mode`");
+    break;
+    
+    // getAll-accounts
+    case 'invalid: limit':
+      $message("Invalid `limit`: Value moust be integer > 0");
+    break;
+    
+    case 'invalid: except not-array':
+      $message("Invalid `except`: type not array");
+      break;
+    case 'invalid: except value':
+      $message("Invalid `except`: All values moust be type of integer");
+    break;
+    
+    
+    // search-account
+    case 'invalid: by in search-account mode':
+      $message("Invalid `by` value");
+      break;
+    case 'invalid: id in search-account by id mode': 
+      $message('Invalid `id` value');
+      break;
+    case 'invalid: email in search-account by email mode': 
+      $message('Invalid `email` value');
+    break;
   }
 
 }
