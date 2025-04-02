@@ -23,10 +23,10 @@ include 'init.php';
   - - ** `account-id` T int
   
   - cancel-sub: returns bool
-  - - ** `sub-id` T int
+  - - ** `account-id` T int
 
   - getAll-subs-history: returns array
-  - - ** `limit` 
+  - - ** `limit`
   - - ** `except`
   - - `of-account` T int
   
