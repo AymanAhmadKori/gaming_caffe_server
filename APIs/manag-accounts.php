@@ -160,6 +160,33 @@ define('search_account_modes',[
       //
     break;
 
+    case 'search-account':
+      // Validate `by`
+      if( !isset($data['by'])) error('!isset: by in search-account mode');
+        $by = $data['by'];
+        
+        if(!in_array($by, search_account_modes)) error('invalid: by in search-account mode');
+      //
+
+      // Validate `id`
+      if($by == 'id') {
+        if( !isset($data['id']) ) error('!isset: id in search-account by id mode');
+        $id = $data['id'];
+
+        if(!is_int($id) || $id < 0) error('invalid: id in search-account by id mode');
+        
+      }
+
+      // Validate `email`
+      if($by == 'email') {
+        if( !isset($data['email']) ) error('!isset: email in search-account by email mode');
+        $email = $data['email'];
+
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL)) error('invalid: email in search-account by email mode');
+        
+      }
+      
+    break;
 
 
   }
