@@ -261,6 +261,16 @@ define('search_account_modes',[
       
     break;
 
+    case 'get-sub':
+    case 'cancel-sub':
+      // Validate account-id
+      if( !isset($data['account_id']) ) error('!isset: account_id in get-sub || cancel-sub mode');
+        $account_id = $data['account_id'];
+        
+        if( !is_int($account_id) || $account_id < 0) error('invalid: account_id in get-sub || cancel-sub mode');
+      //
+    break;
+
   }
   
 })();
