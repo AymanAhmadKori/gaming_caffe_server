@@ -83,6 +83,12 @@ function error(string $type) {
         break;
       //
       
+      // get-sub & cancel-sub
+        case '!isset: account_id in get-sub || cancel-sub mode':
+          $message('Undefined `account_id` : account_id is require in `get-sub` or `cancel-sub` mode');
+        break;
+      //
+      
     //
     
     //=== Invalid errors === \\
@@ -130,6 +136,12 @@ function error(string $type) {
           break;
         case 'invalid: plan_cycles in set-sub mode':
           $message('Invalid `plan_cycles` value');
+        break;
+      //
+      
+      // get-sub & cancel-sub
+        case 'invalid: account_id in get-sub || cancel-sub mode':
+          $message('Invalid `account_id` value');
         break;
       //
     //
