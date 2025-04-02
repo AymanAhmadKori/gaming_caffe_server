@@ -15,7 +15,7 @@ include 'init.php';
   - - ** `id` T int
 
   - set-sub : returns bool
-  - - ** `id` T int
+  - - ** `account-id` T int
   - - ** `plan-id` T int
   - - ** `plan-cycles` T int
 
@@ -23,12 +23,12 @@ include 'init.php';
   - - ** `account-id` T int
   
   - cancel-sub: returns bool
-  - - ** `account-id` T int
   - - ** `sub-id` T int
 
   - getAll-subs-history: returns array
   - - ** `limit` 
-  - - ** `except` 
+  - - ** `except`
+  - - `of-account` T int
   
 */
 
@@ -47,27 +47,27 @@ function error(string $type) {
 
       // getAll-accounts
         case '!isset: limit':
-          $message("Undefined `limit`: limit is important in `getAll-accounts` mode");
+          $message("Undefined `limit`: limit is require in `getAll-accounts` mode");
           break;
         case '!isset: except':
-          $message("Undefined `except`: except is important in `getAll-accounts` mode");
+          $message("Undefined `except`: except is require in `getAll-accounts` mode");
         break;
       //
       // search-account
         case '!isset: by in search-account mode':
-          $message("Undefined `by`: by is important in `search-account` mode");
+          $message("Undefined `by`: by is require in `search-account` mode");
           break;
         case '!isset: id in search-account by id mode':
-          $message("Undefined `id`: id is important in `search-account` by id mode");
+          $message("Undefined `id`: id is require in `search-account` by id mode");
           break;
         case '!isset: email in search-account by email mode':
-          $message("Undefined `email`: email is important in `search-account` by email mode");
+          $message("Undefined `email`: email is require in `search-account` by email mode");
         break;
       //
 
       // ban-account & unBlock-account
         case '!isset: id in ban-account || unBlock-account mode':
-          $message('Undefined `id`: id is important in `ban-account` or `unBlock-account mode');
+          $message('Undefined `id`: id is require in `ban-account` or `unBlock-account mode');
         break;
       //
 
