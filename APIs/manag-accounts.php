@@ -208,7 +208,7 @@ define('search_account_modes',[
       
         // Check except IDs
         $types = array_unique(array_map('gettype', $except));
-        if(count($types) > 1 || $types[0] !== 'integer') error('invalid: except value');
+        if(count($types) !== 1 || $types[0] !== 'integer') error('invalid: except value');
       //
     break;
 
