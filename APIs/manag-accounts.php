@@ -89,6 +89,15 @@ function error(string $type) {
         break;
       //
       
+      // getAll-subs-history
+        case "!isset: limit in getAll-subs-history mode":
+          $message('Undefined `limit` : limit is require in `getAll-subs-history` mode');
+          break;
+        case "!isset: except in getAll-subs-history mode":
+          $message('Undefined `except` : except is require in `getAll-subs-history` mode');
+          break;
+      //
+      
     //
     
     //=== Invalid errors === \\
@@ -144,6 +153,22 @@ function error(string $type) {
           $message('Invalid `account_id` value');
         break;
       //
+
+      // getAll-subs-history
+        case 'invalid: limit in getAll-subs-history mode':
+          $message('Invalid `limit` value');
+          break;
+        case 'invalid: except in getAll-subs-history mode':
+          $message('Invalid `except` value');
+          break;
+        case 'invalid: except in getAll-subs-history mode [not-array]':
+          $message('Invalid `except` type not-array');
+          break;
+        case 'invalid: of_account in getAll-subs-history mode':
+          $message('Invalid `of_account` value');
+        break;
+      //
+      
     //
   }
 
@@ -283,6 +308,35 @@ define('search_account_modes',[
       //
     break;
 
+    case 'getAll-subs-history':
+      // Validate limit
+      if( !isset($data['limit']) ) error('!isset: limit in getAll-subs-history mode');
+        $limit = $data['limit'];
+
+        if( !is_int($limit) || $limit <= 0) error('invalid: limit in getAll-subs-history mode');
+      //
+        
+      // Validate except
+      if( !isset($data['except']) ) error('!isset: except in getAll-subs-history mode');
+        $except = $data['except'];
+
+        if( !is_array($except) ) error('invalid: except in getAll-subs-history mode [not-array]');
+        
+        // Check types
+        $types = array_unique(array_map('gettype', $except));
+
+        if(count($types) !== 1 || $types[0] !== 'integer') error('invalid: except in getAll-subs-history mode');
+        
+      //
+
+      // Validate of_account if exists
+      if(isset($data['of_account'])) {
+        $of_account = $data['of_account'];
+        
+        if( !is_int($of_account) || $of_account < 0) error('invalid: of_account in getAll-subs-history mode');
+      }
+    break;
+    
   }
   
 })();
