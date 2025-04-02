@@ -9,7 +9,7 @@
  * @param array $payload The payload data to include in the JWT.
  * @return string The generated JWT token.
  */
-function createJWT(array $payload): string {
+function createJWT(array|string $payload): string {
   // Step 1: Create the header (Header)
   $header = [
       'alg' => 'RS256', // RSA algorithm with SHA-256
@@ -131,17 +131,3 @@ function getPayload(string $jwt) {
   // Return the decoded payload
   return $decodedPayload;
 }
-
-$payload = [
-  "user_data" => [
-    "id" => "152",
-    "name" => 'Ayman Ahmad',
-  ],
-  "exp" => "2025-1-15"
-];
-
-$jwt = createJWT($payload);
-
-echo "<pre>";
-print_r(getPayload($jwt));
-echo "</pre>";
