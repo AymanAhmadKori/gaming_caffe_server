@@ -204,6 +204,14 @@ define('search_account_modes',[
       
     break;
 
+    case 'ban-account':
+    case 'unBlock-account':
+      // Validate `id`
+      if(!isset($data['id'])) error('!isset: id in ban-account || unBlock-account mode');
+      $id = $data['id'];
+      
+      if( !is_int($id) || $id < 0) error('invalid: id in ban-account || unblock-account mode');
+    break;
 
   }
   
