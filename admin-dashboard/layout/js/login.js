@@ -28,7 +28,7 @@
   // Add loading class to pageContent
   pageContent.classList.add('loading');
 
-  JWT = await fetch("http://localhost/projects/github/gaming_caffe_server/login.php", {
+  JWT = await fetch("http://localhost/projects/github/gaming_caffe_server/APIs/login.php", {
       method: "POST",
       body: JSON.stringify({
         code: authCode,
