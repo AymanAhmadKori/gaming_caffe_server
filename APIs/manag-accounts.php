@@ -71,6 +71,18 @@ function error(string $type) {
         break;
       //
 
+      // set-sub
+        case '!isset: account_id in set-sub mode':
+          $message('Undefined `account_id` : account_id is require in `set-sub` mode');
+          break;
+        case '!isset: plan_id in set-sub mode':
+          $message('Undefined `plan_id` : plan_id is require in `set-sub` mode');
+          break;
+        case '!isset: plan_cycles in set-sub mode':
+          $message('Undefined `plan_cycles` : plan_cycles is require in `set-sub` mode');
+        break;
+      //
+      
     //
     
     //=== Invalid errors === \\
@@ -106,6 +118,18 @@ function error(string $type) {
       // ban-account || unblock-account mode
         case 'invalid: id in ban-account || unblock-account mode':
           $message('Invalid `id` value');
+        break;
+      //
+
+      // set-sub
+        case 'invalid: account_id in set-sub mode':
+          $message('Invalid `account_id` value');
+          break;
+        case 'invalid: plan_id in set-sub mode':
+          $message('Invalid `plan_id` value');
+          break;
+        case 'invalid: plan_cycles in set-sub mode':
+          $message('Invalid `plan_cycles` value');
         break;
       //
     //
