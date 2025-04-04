@@ -254,7 +254,7 @@ const lang = {
 
     // الصفحات \\
     "الرئيسية": "Home",
-    "إدارة الحسابات": "Manage Accoutns",
+    "إدارة الحسابات": "Manage Accounts",
     "سجل الإشتراكات": "Subscription history",
     "الإعدادات": "Settings",
     "تسجيل الدخول": "Login",
