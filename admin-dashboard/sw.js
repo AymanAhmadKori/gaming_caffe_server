@@ -51,7 +51,7 @@ if (workbox) {
       .catch(err => console.error(`⚠️ فشل جلب الملف ${file}:`, err));
   });
   
-  const CACHE_NAME = 'AppFiles';
+  const CACHE_NAME = 'admin-files-v1';
 
   // Delete old caches
   self.addEventListener('activate', (event) => {
