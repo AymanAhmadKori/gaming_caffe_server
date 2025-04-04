@@ -95,47 +95,47 @@ if(!isset($google_data['id'])) {
 // Connect to database\\
 include 'connect.php';
 
-// Get user data from database \\
-$user_data = getUserData($google_data['id']);
+// Get account data from database \\
+$account_data = getAccountData($google_data['id']);
 
-// Compare & Update user data, If user exsists \\
-if(!is_null($user_data)) {
+// Compare & Update account data, If account exsists \\
+if(!is_null($account_data)) {
   // Array to store update fields
   $updates = [];
   $params = [];
 
   // Compare old and new data
-  if ($user_data['email'] !== $google_data['email']) {
+  if ($account_data['email'] !== $google_data['email']) {
     $updates[] = "email = ?";
     $params[] = $google_data['email'];
 
-    $user_data['email'] = $google_data['email'];
+    $account_data['email'] = $google_data['email'];
   }
-  if ($user_data['full_name'] !== $google_data['name']) {
+  if ($account_data['full_name'] !== $google_data['name']) {
     $updates[] = "full_name = ?";
     $params[] = $google_data['name'];
     
-    $user_data['full_name'] = $google_data['name'];
+    $account_data['full_name'] = $google_data['name'];
   }
 
   // Generate SQL update statement if there are changes
   if (!empty($updates)) {
     $sql = "UPDATE accounts SET " . implode(", ", $updates) . " WHERE google_id = ?";
-    $params[] = $user_data['google_id']; // Add old google?id as the WHERE condition parameter
+    $params[] = $account_data['google_id']; // Add old google?id as the WHERE condition parameter
 
-    // Update new user_data from google_data \\
+    // Update new account_data from google_data \\
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
   }
 
   // Remove google_id & id
-  unset($user_data['google_id'], $user_data['id']);
+  unset($account_data['google_id']);
 } else {
-  // Add user in database \\
-  addUser($google_data['id'], $google_data['email'], $google_data['name']);
+  // Add account in database \\
+  addAccount($google_data['id'], $google_data['email'], $google_data['name']);
 
   // Save user data \\
-  $user_data = [
+  $account_data = [
     'email' => $google_data['email'],
     'full_name' => $google_data['name'],
     'profile_image' => $google_data['picture'],
@@ -144,7 +144,7 @@ if(!is_null($user_data)) {
 }
 
 // Set JWT expiry
-if(isset($user_data['admin'])) {
+if(isset($account_data['admin'])) {
   $expiry = addHoursToUTC($admin_JWT_life);
 } else {
   $expiry = addHoursToUTC($JWT_life);
@@ -152,10 +152,10 @@ if(isset($user_data['admin'])) {
 
 // Respond with JWT \\
 $payload = json_encode([
-  ...$user_data,
+  ...$account_data,
   "profile_image" => $google_data['picture'],
-  'sub' => getUser_subs($google_data['id']),
-  'ban' => getBanDetails($user_data['ban']),
+  'sub' => getAccount_subs($account_data['id']),
+  'ban' => getBanDetails($account_data['id']),
   'expiry' => $expiry
 ]);
 
