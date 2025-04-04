@@ -21,6 +21,7 @@ define("PRIVATE_KEY", file_get_contents("../includes/JWT-keys/private.key"));
 define("PUBLIC_KEY", file_get_contents("../includes/JWT-keys/public.key"));
 
 // Paths
+define("connectFile", "connect.php");
 define("jwtFile", "../includes/jwt.php");
 define('funcs', '../includes/functions/');
 
