@@ -51,8 +51,6 @@ function incJS(path_in_jsDir) {
   return script;
 }
 
-// Include index file \\
-incJS('index.js');
 
 /**
  * Dynamically loads a CSS file from a specified directory or returns a blank link element.
