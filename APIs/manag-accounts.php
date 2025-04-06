@@ -36,6 +36,13 @@ include 'init.php';
   - - ** `except`
   - - `of-account` T int
   
+  - getAll-plans: returns array
+  
+  - update-plan: returns bool
+  - - ** `plan_id` T int
+  - - `cycle_duration` T int
+  - - `price_per_cycle` T int|float
+  - - `name` T string
 */
 
 // Error response
@@ -46,20 +53,24 @@ function error(string $type) {
   };
 
   switch($type) {
+    case 'default':
+      $message('Theres an Error');
+    break;
+    
     // === Undefined errors === \\
       case '!exists: mode':
         $message("Undefined `mode`");
       break;
 
-      // getAll-accounts
+      ## getAll-accounts
         case '!isset: limit':
           $message("Undefined `limit`: limit is require in `getAll-accounts` mode");
           break;
         case '!isset: except':
           $message("Undefined `except`: except is require in `getAll-accounts` mode");
         break;
-      //
-      // search-account
+      #
+      ## search-account
         case '!isset: by in search-account mode':
           $message("Undefined `by`: by is require in `search-account` mode");
           break;
@@ -69,9 +80,9 @@ function error(string $type) {
         case '!isset: email in search-account by email mode':
           $message("Undefined `email`: email is require in `search-account` by email mode");
         break;
-      //
+      #
 
-      // ban-account & unBlock-account
+      ## ban-account & unBlock-account
         case '!isset: account_id in ban-account || unBlock-account mode':
           $message('Undefined `account_id`: account_id is require in `ban-account` or `unBlock-account mode');
           break;
@@ -81,9 +92,9 @@ function error(string $type) {
         case '!isset: unBlock_at in ban-account mode':
           $message('Undefined `unBlock_at`: unBlock_at is require in ban-account mode');
         break;
-      //
+      #
 
-      // set-sub
+      ## set-sub
         case '!isset: account_id in set-sub mode':
           $message('Undefined `account_id` : account_id is require in `set-sub` mode');
           break;
@@ -96,22 +107,31 @@ function error(string $type) {
         case '!isset: cost in set-sub mode':
           $message('Undefined `cost` : cost is require in `set-sub` mode');
         break;
-      //
+      #
       
-      // get-sub & cancel-sub
+      ## get-sub & cancel-sub
         case '!isset: account_id in get-sub || cancel-sub mode':
           $message('Undefined `account_id` : account_id is require in `get-sub` or `cancel-sub` mode');
         break;
-      //
+      #
       
-      // getAll-subs-history
+      ## getAll-subs-history
         case "!isset: limit in getAll-subs-history mode":
           $message('Undefined `limit` : limit is require in `getAll-subs-history` mode');
           break;
         case "!isset: except in getAll-subs-history mode":
           $message('Undefined `except` : except is require in `getAll-subs-history` mode');
           break;
-      //
+      #
+
+      ## update-plan
+        case '!isset: plan_id in update-plan mode':
+          $message('Undefined `plan_id` : plan_id is require in `update-plan` mode');
+        break;
+        case '!isset: plan data':
+          $message('Undefined `plan data` : Theres no data to update');
+        break;
+      #
       
     //
     
@@ -120,7 +140,7 @@ function error(string $type) {
         $message("Invalid `mode`");
       break;
       
-      // getAll-accounts
+      ## getAll-accounts
         case 'invalid: limit':
           $message("Invalid `limit`: Value moust be integer > 0");
         break;
@@ -131,9 +151,9 @@ function error(string $type) {
         case 'invalid: except value':
           $message("Invalid `except`: All values moust be type of integer");
         break;
-      //
+      #
       
-      // search-account
+      ## search-account
         case 'invalid: by in search-account mode':
           $message("Invalid `by` value");
           break;
@@ -143,9 +163,9 @@ function error(string $type) {
         case 'invalid: email in search-account by email mode': 
           $message('Invalid `email` value');
         break;
-      //
+      #
 
-      // ban-account || unblock-account mode
+      ## ban-account || unblock-account mode
         case 'invalid: account_id in ban-account || unblock-account mode':
           $message('Invalid `account_id` value');
           break;
@@ -155,9 +175,9 @@ function error(string $type) {
         case 'invalid: unBlock_at in ban-account mode':
           $message('Invalid `unBlock_at` value not-ISO8601');
         break;
-      //
+      #
 
-      // set-sub
+      ## set-sub
         case 'invalid: account_id in set-sub mode':
           $message('Invalid `account_id` value');
           break;
@@ -165,20 +185,20 @@ function error(string $type) {
           $message('Invalid `plan_id` value');
           break;
         case 'invalid: expiry in set-sub mode':
-          $message('Invalid `expiry` value not-ISO8601');
+          $message('Invalid `expiry` value not-ISO8601 or [ expiry <= now ]');
           break;
         case 'invalid: cost in set-sub mode':
           $message('Invalid `cost` value');
         break;
-      //
+      #
       
-      // get-sub & cancel-sub
+      ## get-sub & cancel-sub
         case 'invalid: account_id in get-sub || cancel-sub mode':
           $message('Invalid `account_id` value');
         break;
-      //
+      #
 
-      // getAll-subs-history
+      ## getAll-subs-history
         case 'invalid: limit in getAll-subs-history mode':
           $message('Invalid `limit` value');
           break;
@@ -191,9 +211,33 @@ function error(string $type) {
         case 'invalid: of_account in getAll-subs-history mode':
           $message('Invalid `of_account` value');
         break;
-      //
+      #
       
+      ## update-plan
+        case 'invalid: plan_id in update-plan mode':
+          $message('Invalid `plan_id` value');
+        break;
+        case 'invalid: cycle_duration in update-plan mode':
+          $message('Invalid `cycle_duration` value');
+        break;
+        case 'invalid: price_per_cycle in update-plan mode':
+          $message('Invalid `price_per_cycle` value');
+        break;
+        case 'invalid: name in update-plan mode':
+          $message('Invalid `name` value');
+        break;
+      #
     //
+
+    //=== Executing errors === \\ 
+      case 'execute':
+        $message('Error while executing statment');
+      break;
+      case 'execute: delete expired-sub in set-sub mode':
+        $message('Error while deleting expired sub');
+      break;
+    //
+
   }
 
 }
@@ -206,17 +250,21 @@ $data = json_decode($request, true);
 
 // Request modes
 define('request_modes',[
-  // Account
+  # Account
   'getAll-accounts',
   'search-account',
   'ban-account',
   'unBlock-account',
 
-  // Subscription
+  # Subscription
   'set-sub',
   'get-sub',
   'cancel-sub',
-  'getAll-subs-history'
+  'getAll-subs-history',
+
+  # Plans
+  'getAll-plans',
+  'update-plan'
 ]);
 
 // Search account modes
@@ -335,6 +383,11 @@ define('search_account_modes',[
         $expiry = $data['expiry'];
         
         if( !isValidISO8601($expiry) ) error('invalid: expiry in set-sub mode');
+
+        $expiry = date->iso_to_mil($expiry);
+        $now = date->now_mil();
+
+        if(($expiry - $now) <= 0) error('invalid: expiry in set-sub mode');
       //
 
       // Validate cost
@@ -384,6 +437,46 @@ define('search_account_modes',[
       }
     break;
     
+    case 'update-plan':
+
+      ## Validate plan_id
+      if( !isset($data['plan_id']) ) error('!isset: plan_id in update-plan mode');
+        $plan_id = $data['plan_id'];
+        
+        if( !is_int($plan_id) || $plan_id < 0) error('invalid: plan_id in update-plan mode');
+      #
+
+      ## Vlidate cycle_duration
+      if( isset($data['cycle_duration']) ) {
+        $cycle_duration = $data['cycle_duration'];
+
+        if( !is_int($cycle_duration) || $cycle_duration <= 0) error('invalid: cycle_duration in update-plan mode');
+      }
+
+      ## Validate price_per_cycle
+      if( isset($data['price_per_cycle']) ) {
+        $price_per_cycle = $data['price_per_cycle'];
+
+        if( 
+          !(is_int($price_per_cycle) || is_float($price_per_cycle))
+          || $price_per_cycle < 0 
+        ) error('invalid: price_per_cycle in update-plan mode');
+      }
+
+      ## Validate name
+      if( isset($data['name']) ) {
+        $name = trim($data['name']);
+
+        if(!(preg_match('/^[\p{L}\p{N}_\-\s]+$/u', $name)) ) error('invalid: name in update-plan mode');
+      }
+
+      if(
+        !isset($data['cycle_duration']) &&
+        !isset($data['price_per_cycle']) &&
+        !isset($data['name'])
+      ) error('!isset: plan data');
+      
+    break;
   }
   
 })();
@@ -403,7 +496,7 @@ function response_with($data) {
 }
 
 switch ($request_mode) {
-  // Returns: Array of objects [{id, full_name, email}]
+  // Returns: Array of objects
   case 'getAll-accounts':
     // Limit & Excepts
     $limit = $data['limit'];
@@ -485,36 +578,100 @@ switch ($request_mode) {
     $plan_id = $data['plan_id'];
     $cost = $data['cost'];
     $expiry = $data['expiry'];
-
-    // Create query
-    $q = "INSERT INTO `subs`(`account_id`, `plan_id`, `cost`, `expiry`) VALUES (?,?,?,?)";
-
-    // Conncet to database
-    include connectFile;
     
-    // Execute statment
-    $stmt = execute_statment($q, [$account_id, $plan_id, $cost, $expiry]);
+    // Connect to database
+    include connectFile;
 
-    // Response data
-    if( is_null($stmt) ) response_with(false);
-    else response_with(true);
+    # Check if sub expired
+    $sub_validation = validate_sub($account_id);
+
+    // Response with false if sub not expired
+    if( $sub_validation === true ) response_with(false);
+
+    # Delete expired sub
+    if( $sub_validation === false ) {
+
+      $stmt = delete_sub($account_id);
+
+      // Executing error
+      if( is_null($stmt) ) error('execute');
+    }
+
+    // Executing error
+    if( gettype($sub_validation) == 'array' ) error('execute');
+
+    # Create sub
+    $stmt = set_sub($account_id, $plan_id, $cost, $expiry);
+
+    // Executing error
+    if(is_null($stmt)) error('execute');
+
+    # Create sub history
+
+    $sub_id = $pdo->lastInsertId();
+    
+    $stmt = set_sub_history($sub_id, $account_id, $plan_id, $cost, $expiry);
+    
+    // Response with true
+    response_with(true);
   break;
 
   // Returns: bool [true | false]
   case 'cancel-sub':
     $account_id = $data['account_id'];
 
-    // Query
-    $q = "DELETE FROM `subs` WHERE `account_id` = ?";
+    // Conncet to database
+    include connectFile;
 
+    ## Delete sub-history
+      $sub_id = get_sub_id($account_id);
+      
+      if( is_null($sub_id) ) response_with(false);
+      
+      // Execute statment
+      $stmt = delete_sub_history($sub_id);
+
+      // Execute error
+      if( is_null($stmt) ) error('execute');
+    #
+
+    // Delete sub
+    $stmt = delete_sub($account_id);
+    
+    if(is_null($stmt)) error('execute');
+        
+    response_with($stmt);
+  break;
+
+  // Returns: Array of objects 
+  case 'getAll-plans':
+    // Conncet to database
+    include connectFile;
+    
+    // Create query
+    $plans = getAll_plans();
+
+    if( is_null($plans) ) error('execute');
+    
+    response_with($plans);
+  break;
+
+  // Returns bool
+  case 'update-plan':
+    $plan_id = $data['plan_id'];
+    $price_per_cycle = isset($data['price_per_cycle'])? $data['price_per_cycle'] : null;
+    $cycle_duration = isset($data['cycle_duration'])? $data['cycle_duration'] : null;
+    $name = isset($data['name'])? $data['name'] : null;
+    
     // Conncet to database
     include connectFile;
 
     // Execute statment
-    $stmt = execute_statment($q, [$account_id]);
+    $stmt = update_plan($plan_id, $price_per_cycle, $cycle_duration, $name);
 
-    // Response data
-    if(is_null($stmt) || $stmt->rowCount() == 0) response_with(false);
-    else response_with(true);
+    // Execute error
+    if( is_null($stmt) ) error('execute');
+    
+    response_with($stmt);
   break;
 }
