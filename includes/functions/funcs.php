@@ -31,15 +31,60 @@ function isValidISO8601($datetime) {
   return false;
 }
 
-function execute_statment($q, $params) {
-  global $pdo;
+class DateFuncs {
 
-  // Create statment
-  $stmt = $pdo->prepare($q);
+  /** Day => ISO format */
+  public function d_to_iso($date) {
+    $dt = new DateTime($date, new DateTimeZone("UTC"));
+    return $dt->format(DateTime::ATOM); // ISO 8601
+  }
+  /** Date => Milliseconds */
+  public function d_to_mil($date) {
+    $dt = new DateTime($date, new DateTimeZone("UTC"));
+    return $dt->getTimestamp() * 1000;
+  }
 
-  // Execute
-  try {
-    $stmt->execute($params);
-    return $stmt;
-  } catch(PDOException $e) { return null; }
+  /** ISO format => Date */
+  public function iso_to_d($iso) {
+      $dt = new DateTime($iso, new DateTimeZone("UTC"));
+      return $dt->format('Y-m-d H:i:s');
+  }
+  /** ISO format => Milliseconds */
+  public function iso_to_mil($iso) {
+      $dt = new DateTime($iso, new DateTimeZone("UTC"));
+      return $dt->getTimestamp() * 1000;
+  }
+
+  /** Milliseconds => Date */
+  public function mil_to_d($milliseconds) {
+    $seconds = $milliseconds / 1000;
+    $dt = new DateTime("@$seconds"); // الـ @ تنشئ من Unix timestamp
+    $dt->setTimezone(new DateTimeZone("UTC"));
+    return $dt->format('Y-m-d H:i:s');
+  }
+  /** Milliseconds => ISO format */
+  public function mil_to_iso($milliseconds) {
+      $seconds = $milliseconds / 1000;
+      $dt = new DateTime("@$seconds"); // الـ @ تنشئ من Unix timestamp
+      $dt->setTimezone(new DateTimeZone("UTC"));
+      return $dt->format(DateTime::ATOM); // ISO 8601
+  }
+
+  // Current UTC
+  /** Now Date */
+  public function now_d() {
+    $dt = new DateTime("now", new DateTimeZone("UTC"));
+    return $dt->format('Y-m-d H:i:s');
+  }
+  /** Now in Milliseconds */
+  public function now_mil() {
+    $dt = new DateTime("now", new DateTimeZone("UTC"));
+    return $dt->getTimestamp() * 1000;
+  }
+  /** Now in ISO format */
+  public function now_iso() {
+    $dt = new DateTime("now", new DateTimeZone("UTC"));
+    return $dt->format(DateTime::ATOM); // ISO 8601
+  }
 }
+define('date', new DateFuncs());
