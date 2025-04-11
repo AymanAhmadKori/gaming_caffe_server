@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="layout/css/style.css" />
+    <title>إدارة الحسابات</title>
+  </head>
+  <body>
+    <nav id="navContainer"></nav>
+
+    <div class="pageContainer flex column gap-20">
+      <div class="flex column gap-10">
+        <div class="mainBar flex align-center just-between radius-5">
+          <section class="search flex align-center gap-10">
+            <input-compo>
+              <div class="input">
+                <input type="text" placeholder="الاسم" id="searchInput" />
+              </div>
+            </input-compo>
+
+            <div class="search_buttons flex gap-5">
+              <button class="medium bgc-primary" id="search_by_name">
+                <p class="txt body1"><trans->بالاسم</trans-></p>
+              </button>
+              <button class="medium bgc" id="search_by_email">
+                <p class="txt body1"><trans->بالبريد</trans-></p>
+              </button>
+              <button class="medium bgc" id="search_by_id">
+                <p class="txt body1"><trans->بالمعرف</trans-></p>
+              </button>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <div class="accounts-container noScrollBar">
+        <!-- <div class="account">
+        <div class="flex gap-10">
+          <div class="profile-img">
+            <img src="./layout/imgs/profile.svg" alt="">
+          </div>
+          <div class="flex column">
+            <div class="flex align-center gap-5">
+              <p id="name" class="txt body1 txt-color-gray">Username</p>
+              <div class="id-container">
+                <p id="id" class="txt body1">10</p>
+              </div>
+            </div>
+            <p id="email" class="txt body1 txt-color-gray">UserEmail@gmail.com</p>
+          </div>
+        </div>
+
+        <button class="medium bgc">
+          <p class="txt body1"><trans->التفاصيل</trans-></p>
+        </button>
+      </div> -->
+      </div>
+
+      <div class="noAccount-founded display-none">
+        <h4><trans->لم يتم العثور على اي حساب</trans-></h4>
+        <button class="large bgc">
+          <p class="txt body1"><trans->عرض جميع الحسابات</trans-></p>
+        </button>
+      </div>
+    </div>
+
+    <script src="init.js"></script>
+  </body>
+</html>
+
+
