@@ -295,6 +295,13 @@ h6.txt-noWrap,
 .txt.to-lower {text-transform: lowercase}
 .txt.capitalize {text-transform: capitalize}
 
+/* Overflow */
+.txt.ellipsisOver {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+}
+
 /* === Flex box === */
 .flex   {display: flex}
 
@@ -314,7 +321,7 @@ h6.txt-noWrap,
 
 /* Direction */
 .flex.column   {flex-direction: column}
-.flex.row      {flex-direction: column}
+.flex.row      {flex-direction: row}
 
 /* Grow */
 .flex.grow-1    {flex: 1}
@@ -428,6 +435,10 @@ h6.txt-noWrap,
 /* Display none */
 .display-none {display: none !important}
 
-/* Width classes */
+/* Width & hight classes */
 .fit-width {width: fit-content}
 .fill-width {width: 100%}
+.fit-height {height: fit-content}
+.fill-height {height: 100%}
+
+.hiddenOver {overflow: hidden}
