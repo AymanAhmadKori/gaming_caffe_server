@@ -129,6 +129,7 @@ document.body.append(alertsContainer);
 function pushRealTimeAlert(status, message) {
   // Alert Statuses
   const statuses = ['warning', 'error', 'success'];
+  const delay = 5000; // Milliseconds
 
   // Check them status
   if(!statuses.includes(status)) {
@@ -164,7 +165,7 @@ function pushRealTimeAlert(status, message) {
   }
   
   // Delay before remove the alert
-  let removeTimeoutHandle = setTimeout(() => removeAlert(), 3000);
+  let removeTimeoutHandle = setTimeout(() => removeAlert(), delay);
     
   // Cansel the delay
   alert.onclick = ()=> {
@@ -213,7 +214,18 @@ const lang = {
     "المتابعة بـ": "Continue with",
     "جوجل": "Google",
     "صورة الملف الشخصي": "Profile picture",
+    "ايام متبقية": "Days left",
+    "ايام": "Days",
+    "انتهاء الصلاحية": "Expiry",
+    "التكلفة": "Cost",
 
+    // الاشتراك \\
+    "اساسي": "Basic",
+    "الافتراضي": "Default",
+    "الخُطط": "Plans",
+    "الدورات": "Cycles",
+    "تسجيل": "Register",
+    
     // الإعدادات \\
     "النظام": "System",
     "العرض": "Display",
@@ -243,9 +255,19 @@ const lang = {
     "تنزيل": "Download",
     "تسجيل الخروج": "Logout",
     "اتصل بنا": "Contact us",
+    "التفاصيل": "Details",
+    "بالاسم": "By Name",
+    "بالمعرف": "By ID",
+    "بالبريد": "By Email",
+    "السجل": "History",
+    "الأشتراك": "Subscription",
+    "اغلاق": "Close",
+    "نعم، إلغاء الاشتارك": "Yes, Cancel subscription",
+    "نعم، تسجيل الاشتارك": "Yes, Cancel subscription",
 
     // عناوين \\
     "تم حظر هذا الحساب.": "This account has been banned.",
+    "تفاصيل الحساب": "Account details",
     
     // العملات \\
     "د.ل": "LYD",
@@ -258,10 +280,20 @@ const lang = {
     "تسجيل الدخول": "Login",
     "حساب محظور": "Banned account",
 
+    // إدارة الحسابات و الاشتراكات \\
+    "لم يتم العثور على اي حساب": "No account founded",
+    "عرض جميع الحسابات": "Show all accounts",
+    "اشتراك جديد": "New subscription",
+    "لا يوجد اشتراك": "No subscription",
+
     // رسائل التنبيه \\
-    // نجاح    
-    // أخطاء    
+    // نجاح
+    "تم تسجيل الاشتارك": "Subscription has been registered",
+    "تم إلغاء الاشتارك": "Subscription has been canceld",
+    // أخطاء
     // تحذير
+    "هل انت متأكد بأنك تريد إلغاء الاشتراك ؟": "Are you sure you want to cancel the Subscription ?",
+    "هل تريد تسجيل الاشتراك ؟": "Do you want to register the subscription ?",
     // فشل
     "حدث خطأ. حاول مرة أخرى.": "An error occurred. Try again.",
 
@@ -572,6 +604,13 @@ if(document.querySelector('nav#navContainer')){
 // Include login page files \\
 if(pageTitle == "تسجيل الدخول"){
   incJS('login.js');
+}
+
+// Include manage account page files
+if(pageTitle == "إدارة الحسابات") {
+  incJS('manage-accounts.js');
+  incJS('manage-accounts-styles.js');
+  incCSS('manage-accounts.css');
 }
 
 // Database \\
