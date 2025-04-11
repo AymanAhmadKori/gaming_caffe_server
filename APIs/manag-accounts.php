@@ -7,9 +7,9 @@ include 'init.php';
   - - **`limit` T int
   - - **`except` T array
 
-  - search-account : returns object || null
+  - search-accounts : returns array of object
   - - **`by` T string [ email - id ]
-  - - ** `email` T string || ** `id` T int
+  - - ** `email` T string || ** `id` T int || `full_name` T string
 
   - ban-account : returns bool
   - - ** `account_id` T int
@@ -79,6 +79,9 @@ function error(string $type) {
           break;
         case '!isset: email in search-account by email mode':
           $message("Undefined `email`: email is require in `search-account` by email mode");
+          break;
+        case '!isset: full_name in search-account by full_name mode':
+          $message("Undefined `full_name`: full_name is require in `search-account` by full_name mode");
         break;
       #
 
@@ -162,6 +165,9 @@ function error(string $type) {
           break;
         case 'invalid: email in search-account by email mode': 
           $message('Invalid `email` value');
+          break;
+        case 'invalid: full_name in search-account by full_name mode':
+          $message('Invalid `full_name` value');
         break;
       #
 
@@ -252,7 +258,7 @@ $data = json_decode($request, true);
 define('request_modes',[
   # Account
   'getAll-accounts',
-  'search-account',
+  'search-accounts',
   'ban-account',
   'unBlock-account',
 
@@ -270,6 +276,7 @@ define('request_modes',[
 // Search account modes
 define('search_account_modes',[
   'id',
+  'full_name',
   'email'
 ]);
 
@@ -309,32 +316,38 @@ define('search_account_modes',[
       //
     break;
 
-    case 'search-account':
-      // Validate `by`
+    case 'search-accounts':
+      ## Validate `by`
       if( !isset($data['by'])) error('!isset: by in search-account mode');
         $by = $data['by'];
         
         if(!in_array($by, search_account_modes)) error('invalid: by in search-account mode');
-      //
+      #
 
-      // Validate `id`
-      if($by == 'id') {
-        if( !isset($data['id']) ) error('!isset: id in search-account by id mode');
-        $id = $data['id'];
+      switch ($by) {
+        ## Validate `id`
+        case 'id':
+          if( !isset($data['id']) ) error('!isset: id in search-account by id mode');
+          $id = $data['id'];
+  
+          if(!is_int($id) || $id < 0) error('invalid: id in search-account by id mode');
+        break;
 
-        if(!is_int($id) || $id < 0) error('invalid: id in search-account by id mode');
+        ## Validate `email`
+        case 'email':
+          if( !isset($data['email']) ) error('!isset: email in search-account by email mode');
+          $email = $data['email'];
+        break;
         
+        ## Validate full_name
+        case 'full_name':
+          if( !isset($data['full_name']) ) error('!isset: full_name in search-account by full_name mode');
+          $full_name = $data['full_name'];
+
+          if( !validate_name($full_name) ) error('invalid: full_name in search-account by full_name mode');
+        break;
       }
 
-      // Validate `email`
-      if($by == 'email') {
-        if( !isset($data['email']) ) error('!isset: email in search-account by email mode');
-        $email = $data['email'];
-
-        if(!filter_var($email, FILTER_VALIDATE_EMAIL)) error('invalid: email in search-account by email mode');
-        
-      }
-      
     break;
 
     case 'ban-account':
@@ -394,7 +407,7 @@ define('search_account_modes',[
       if( !isset($data['cost']) ) error('!isset: cost in set-sub mode');
         $cost = $data['cost'];
         
-        if(empty($cost) || !in_array(gettype($cost), ['integer', 'double']) || $cost < 0) error('invalid: cost in set-sub mode');
+        if($cost === '' || !in_array(gettype($cost), ['integer', 'double']) || $cost < 0) error('invalid: cost in set-sub mode');
       //
     break;
 
@@ -425,8 +438,7 @@ define('search_account_modes',[
         // Check types
         $types = array_unique(array_map('gettype', $except));
 
-        if(count($types) !== 1 || $types[0] !== 'integer') error('invalid: except in getAll-subs-history mode');
-        
+        if(count($types) > 0 && (count($types) > 1 || $types[0] !== 'integer')) error('invalid: except in getAll-subs-history mode');        
       //
 
       // Validate of_account if exists
@@ -467,7 +479,7 @@ define('search_account_modes',[
       if( isset($data['name']) ) {
         $name = trim($data['name']);
 
-        if(!(preg_match('/^[\p{L}\p{N}_\-\s]+$/u', $name)) ) error('invalid: name in update-plan mode');
+        if(!validate_name($name) ) error('invalid: name in update-plan mode');
       }
 
       if(
@@ -532,7 +544,51 @@ switch ($request_mode) {
   break;
 
   // Return: Object {id, full_name, email, ban}
-  case 'search-account': break;
+  case 'search-accounts':
+    $by = $data['by'];
+
+    // Conncet to database 
+    include connectFile;
+    
+    switch ($by) {
+      # Get by id
+      case 'id':
+        $account_id = $data['id'];
+
+        ## Get account
+        $account_data = getAccount($account_id);
+        
+        // Executing error
+        if( is_null($account_data) ) error('execute');
+
+        // Not exists
+        if( $account_data === false ) response_with([]);
+        
+        // Response with account data
+        response_with($account_data);
+      break;
+      
+      # Get by email or full_name
+      case 'email':
+      case 'full_name':
+        $search = $by == 'email' ? $data['email'] : $data['full_name'];
+
+        // Search from |< |
+        $search .= "%";
+
+        # Create query
+        $q = "SELECT `id`, `email`, `full_name`, `entry_date` FROM `accounts` WHERE `". $by ."` LIKE ?";
+
+        // Execute statment
+        $stmt = execute_statment($q, [$search]);
+        
+        // Executing error
+        if( is_null($stmt) ) error('execute');
+        
+        response_with($stmt->fetchAll(PDO::FETCH_ASSOC));
+      break;
+    }
+  break;
 
   // Returns: bool [true | false]
   case 'ban-account':
@@ -616,6 +672,20 @@ switch ($request_mode) {
     response_with(true);
   break;
 
+  // Returns: object | null
+  case 'get-sub':
+    $account_id = $data['account_id'];
+
+    // Conncet to database
+    include connectFile;
+
+    $sub_data = get_sub_data($account_id);
+
+    if( is_null($sub_data) ) error('execute');
+
+    response_with($sub_data);
+  break;
+  
   // Returns: bool [true | false]
   case 'cancel-sub':
     $account_id = $data['account_id'];
@@ -673,5 +743,21 @@ switch ($request_mode) {
     if( is_null($stmt) ) error('execute');
     
     response_with($stmt);
+  break;
+
+  // Returns: Array of object
+  case 'getAll-subs-history':
+    $limit = $data['limit'];
+    $except = $data['except'];
+    $of_account = !isset($data['of_account'])? null : $data['of_account'];
+
+    // Conncet to database
+    include connectFile;
+
+    $subs_data = get_subs_history($limit, $except, $of_account);
+
+    if( is_null($subs_data) ) error('execute');
+
+    response_with($subs_data);
   break;
 }
