@@ -1,18 +1,12 @@
 <?php
-if($_SERVER['REQUEST_METHOD'] != 'POST') {
-  http_response_code(404);
-  exit();
-}
-
-// Array of allowed domains
-$allowed_origins = [
-  "http://localhost",
-];
-// Check if the request's origin is in the allowed origins array
-if (!in_array($_SERVER['HTTP_ORIGIN'], $allowed_origins)) {
-  http_response_code(404);
-  exit();
-}
+// if($_SERVER['REQUEST_METHOD'] != 'POST') {
+//   http_response_code(404);
+//   exit();
+// }
+// if(!in_array($_SERVER['HTTP_ORIGIN'], allowed_origins)) {
+//   http_response_code(404);
+//   exit();
+// }
 
 $SERVER_NAME = "localhost";
 $USER_NAME = "root";
@@ -127,7 +121,28 @@ function execute_statment(string $q, array $params) {
     return $stmt->rowCount();
   }
 
-  // Get account subscriptions 
+  /** Get account by id
+   * @return object
+   * @return false If not exists
+   * @return null On executing error
+   */
+  function getAccount(int $account_id) {
+    # Create query
+    $q = "SELECT `id`, `email`, `full_name`, `entry_date` FROM `accounts` WHERE `id` = ?";
+
+    // Execute statment
+    $stmt = execute_statment($q, [$account_id]);
+
+    // Executing error
+    if( is_null($stmt) ) return null;
+
+    // Not exists
+    if( $stmt->rowCount() === 0) return false;
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+  }
+  
+  /** Get account subscriptions*/
   function getAccount_subs($account_id) {
     global $pdo;
 
@@ -145,7 +160,7 @@ function execute_statment(string $q, array $params) {
     if((date->d_to_mil($expiry) - date->now_mil()) <= 0) return null;
     
     // Get plan
-    $stmt = $pdo->prepare("SELECT `name` FROM plans WHERE id = ?");
+    $stmt = $pdo->prepare("SELECT `name`, `icon_name` FROM `plans` WHERE id = ?");
     $stmt->execute([ $sub_data['plan_id'] ]);
 
     if($stmt->rowCount() == 0) return null;
@@ -155,6 +170,7 @@ function execute_statment(string $q, array $params) {
     unset($sub_data['plan_id']);
     
     $sub_data['name'] = $plan['name'];
+    $sub_data['icon_name'] = $plan['icon_name'];
 
     return $sub_data;
   }
@@ -215,6 +231,22 @@ function execute_statment(string $q, array $params) {
     return $stmt->fetch(PDO::FETCH_ASSOC)['id'];
   }
 
+  /** Get subscription data 
+   * @return array
+   * @return null on executing error
+  */
+  function get_sub_data(int $account_id) {
+    # Create query
+    $q = "SELECT `plan_id`, `cost`, `expiry`, `entry_date` From `subs` WHERE `account_id` = ?";
+
+    # Execute statment
+    $stmt = execute_statment($q, [$account_id]);
+
+    if( is_null($stmt) ) return null;
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+  }
+  
   /** Create new subscription history
    * @return bool
    * @return null on executing error
@@ -246,6 +278,30 @@ function execute_statment(string $q, array $params) {
     if( is_null($stmt) ) return null;
 
     return $stmt->rowCount() > 0;
+  }
+
+  /** Get subs-historys from database
+   * @return array
+   * @return null On executing error
+  */
+  function get_subs_history(int $limit, array $except = [], int|null $of_account = null) {
+    # Create query
+    $q = "SELECT `plan_id`, `cost`, `entry_date` FROM `subs_history`";
+    $params = [];
+
+    if( !is_null($of_account) ) {
+      $q .= " WHERE `account_id` = ?";
+      $params[] = $of_account;
+    }
+
+    $q .= " LIMIT " . $limit;
+
+    // Execute statment
+    $stmt = execute_statment($q, $params);
+
+    if( is_null($stmt) ) return null;
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
   /** Check's if the account has subscription
