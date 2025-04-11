@@ -1,0 +1,210 @@
+.pageContainer {
+  --pad-top: 40px;
+
+  padding-top: var(--pad-top);
+  padding-left: 15px;
+  padding-right: 15px;
+
+  height: calc(100vh + (var(--pad-top) - 10px));
+}
+
+.mainBar {
+  background-color: var(--section-color);
+  padding: 15px 20px;
+
+}
+
+.accounts-container:not(:has(.account)) {display: none}
+.accounts-container:not(:has(.account)) ~ .noAccount-founded {
+  margin: 0 auto;
+  
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.accounts-container {
+  height: 100%;
+  padding-bottom: 10px;
+
+  display: grid;
+  align-content: start;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+}
+
+.account {
+  padding: 13px;
+  border-radius: 10px;
+  background-color: var(--section-color);
+
+  display: flex;
+  align-items: center;
+  gap: 15px
+}
+.profile-img {
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+}
+.profile-img img {width: 100%}
+
+.accounts-container .account #email,
+.accounts-container .account #name {
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-wrap: nowrap;
+}
+
+.accounts-container:not(.search_by_email) .account #name {
+  color: var(--txt-color);
+  font-size: var(--h6);
+}
+
+.account .id-container {display: none}
+.account .id-container p {color: currentColor}
+/* Search by email */
+.accounts-container.search_by_email .account #email {
+  order: -1;
+  color: var(--txt-color);
+  font-size: var(--h6);
+}
+
+/* Search by id */
+.accounts-container.search_by_id:not(.search_by_email) .account .id-container {
+  display: flex;
+  padding: 0 5px;
+  border-radius: 3px;
+  background-color: var(--secondary);
+  color: var(--txt-black);
+}
+
+
+/* === Details window */
+.detailsWindow {
+  width: 511px;
+  height: 564px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: var(--section-color);
+  
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.detailsWindow header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.detailsWindow header .profile-img {
+  width: 70px;
+  height: 70px;
+}
+
+@media screen and (max-width: 670px),
+screen and (max-height: 600px) {
+  .detailsWindow {
+    width: 100%;
+    height: 100%;
+    border-radius: 0px;
+  }
+  .accounts-container {
+    gap: 10px;
+  }
+}
+
+.detailsWindow .highlight {
+  padding: 3px 10px;
+  border-radius: 3px;
+  background-color: var(--section-color);
+  width: fit-content;
+}
+.detailsWindow .highlight.bgc-primary {
+  background-color: var(--primary);
+  color: var(--txt-black)
+}
+.detailsWindow .highlight.bgc {
+  background-color: var(--btn-color);
+}
+
+/* Sections */
+.detailsWindow section.hidden {
+  display: none;
+}
+.detailsWindow header #label{
+  transition: var(--trans-fast);
+}
+.detailsWindow:has(section.page) .sectionsBar,
+.detailsWindow:has(section.page) *:not(header, header *, section.page, section.page *, section.overlay, section.overlay *) {
+  display: none;
+}
+
+.detailsWindow:has(section.overlay) *:not(
+  section.overlay,
+  section.overlay *,
+  header,
+  header #label,
+  header #label *,
+  header #profile-data,
+  header #profile-data *
+  ) {
+  display: none;
+}
+.detailsWindow:has(section.overlay) header #label {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.detailsWindow section.subscription:not(:has(.sub)) .noSub {
+  display: flex !important;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+.detailsWindow section .sub {
+  --plan-color: var(--blue);
+  padding: 10px;
+  border-radius: 3px;
+  background-color: var(--btn-color);
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.detailsWindow section .sub.اساسي {
+  --plan-color: var(--secondary);
+}
+
+.detailsWindow section .sub #planDetails {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.detailsWindow section .sub #planDetails i- {
+  color: var(--plan-color);
+}
+.detailsWindow section .sub hr {
+  border-color: var(--gray);
+  border-width: 1px;
+}
+
+/* History section */
+.detailsWindow section.history .sub {
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+/* Plan section */
+.detailsWindow section.plan_section {
+  height: 100%;
+  
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
