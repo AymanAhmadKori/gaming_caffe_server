@@ -165,7 +165,7 @@ if(navContainer) { (async () =>{
         </div>
 
         
-        <section class="display">
+        <section class="display flex column gap-20">
           ${themesSettings}
           ${langaugeSettings}
         </section>
