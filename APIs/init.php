@@ -6,13 +6,13 @@ if($_SERVER['REQUEST_METHOD'] != 'POST') {
 }
 
 // Array of allowed domains
-$allowed_origins = [
-  "http://localhost",
-];
+define('allowed_origins',[]);
+
 // Check if the request's origin is in the allowed origins array
-if (!in_array($_SERVER['HTTP_ORIGIN'], $allowed_origins)) {
-  http_response_code(404);
-  exit();
+if (!in_array($_SERVER['HTTP_ORIGIN'], allowed_origins)) {
+  header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
+  header("Access-Control-Allow-Methods: POST");
+  header("Access-Control-Allow-Headers: Content-Type");
 }
 
 
