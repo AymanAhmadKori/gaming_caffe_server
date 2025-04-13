@@ -28,6 +28,9 @@ define('funcs', '../includes/functions/');
 // Use in connect 
 define('INIT', true);
 
+define('default_plan_id', 1);
+define('default_plan_duration', 15); // Days
+
 // === Includes === \\
 // JWT file
 include jwtFile;
