@@ -39,8 +39,6 @@ function execute_statment(string $q, array $params) {
 ## Accounts
   // Check if account exists in database \\
   function isAccountExists($google_id) {
-    global $pdo;
-
     // Get user data from database \\
     $stmt = execute_statment("SELECT `google_id` FROM accounts WHERE google_id = ?", [$google_id]);
 
@@ -56,14 +54,14 @@ function execute_statment(string $q, array $params) {
       $getOnly_ID ? 
       'SELECT `id` FROM accounts WHERE google_id = ?'
       : 
-      'SELECT `id`, `google_id`, `email`, `full_name` FROM accounts WHERE google_id = ?'
+      'SELECT `id`, `google_id`, `email`, `full_name` FROM `accounts` WHERE `google_id` = ?'
     );
 
     $stmt->execute([$google_id]);
 
     $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if(is_null($user_data)) return null;
+    if($stmt->rowCount() === 0) return null;
 
     // Check if Admin's account
     if(
@@ -100,25 +98,21 @@ function execute_statment(string $q, array $params) {
     return $ban_details;
   }
 
-  // Add new account \\
+  /** Add new account
+   * @return bool
+   * @return null On executing error
+   */
   function addAccount($google_id, $email, $full_name) {
-    global $pdo;
+    # Create query
+    $q = "INSERT INTO `accounts`(`google_id`, `email`, `full_name`) VALUES (?,?,?)";
+    
+    // Execute statment \\
+    $stmt = execute_statment($q, [$google_id, $email, $full_name]);
 
-    // Add user in database \\
-    $stmt = $pdo->prepare("INSERT INTO
-      `accounts` (
-        `google_id`,
-        `email`,
-        `full_name`
-      ) 
-      VALUES (?,?,?,?)
-    ");
+    // Executing error
+    if( is_null($stmt) ) return null;
 
-    $stmt->execute([$google_id, $email, $full_name]);
-
-
-
-    return $stmt->rowCount();
+    return $stmt->rowCount() === 1;
   }
 
   /** Get account by id
@@ -181,12 +175,12 @@ function execute_statment(string $q, array $params) {
    * @return bool
    * @return null on executing error
   */
-  function set_sub(int $account_id, int $plan_id, int|float $cost, $expiry) {
+  function set_sub(int $account_id, int $plan_id, int|float $cost, $expiry, $entry_date) {
     // Create query
-    $q = "INSERT INTO `subs`(`account_id`, `plan_id`, `cost`, `expiry`) VALUES (?,?,?,?)";
+    $q = "INSERT INTO `subs`(`account_id`, `plan_id`, `cost`, `expiry`, `entry_date`) VALUES (?,?,?,?,?)";
 
     // Execute statment
-    $stmt = execute_statment($q, [$account_id, $plan_id, $cost, $expiry]);
+    $stmt = execute_statment($q, [$account_id, $plan_id, $cost, $expiry, $entry_date]);
 
     if(is_null($stmt)) return false;
     return true;
@@ -231,6 +225,17 @@ function execute_statment(string $q, array $params) {
     return $stmt->fetch(PDO::FETCH_ASSOC)['id'];
   }
 
+  /** Set default sub on new account
+   * @return null On executing error
+   */
+  function set_default_sub($account_id) {
+    $expiry = date->now_mil() + (default_plan_duration * 24 * 3600 * 1000);
+
+    $expiry = date->mil_to_d($expiry);
+
+    set_sub($account_id, default_plan_id, 0, $expiry, date->now_d());
+  }
+  
   /** Get subscription data 
    * @return array
    * @return null on executing error
