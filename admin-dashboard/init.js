@@ -603,6 +603,11 @@ if(document.querySelector('nav#navContainer')){
   if( !(payload.admin) ) inValidJWT();
 })();
 
+// Include index files \\
+if(pageTitle == 'الرئيسية') {
+  incCSS('index.css');
+}
+
 // Include login page files \\
 if(pageTitle == "تسجيل الدخول"){
   incJS('login.js');

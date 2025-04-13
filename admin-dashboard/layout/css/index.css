@@ -1,0 +1,15 @@
+.pageContainer {
+  padding-top: 70px;
+}
+.showTotal {
+  min-width: 147px;
+  padding: 10px 20px;
+  background-color: var(--section-color);
+  border-radius: 10px;
+  
+  display: flex;
+  flex-direction: column;
+}
+.showTotal .title {
+  color: var(--txt-gray);
+}
