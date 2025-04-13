@@ -565,7 +565,7 @@ switch ($request_mode) {
         if( $account_data === false ) response_with([]);
         
         // Response with account data
-        response_with($account_data);
+        response_with([$account_data]);
       break;
       
       # Get by email or full_name
@@ -634,6 +634,7 @@ switch ($request_mode) {
     $plan_id = $data['plan_id'];
     $cost = $data['cost'];
     $expiry = $data['expiry'];
+    $entry_date = date->now_d();
     
     // Connect to database
     include connectFile;
@@ -657,7 +658,7 @@ switch ($request_mode) {
     if( gettype($sub_validation) == 'array' ) error('execute');
 
     # Create sub
-    $stmt = set_sub($account_id, $plan_id, $cost, $expiry);
+    $stmt = set_sub($account_id, $plan_id, $cost, $expiry, $entry_date);
 
     // Executing error
     if(is_null($stmt)) error('execute');
