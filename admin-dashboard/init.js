@@ -225,6 +225,8 @@ const lang = {
     "الخُطط": "Plans",
     "الدورات": "Cycles",
     "تسجيل": "Register",
+    "الإيرادات": "Revenue",
+    "حسابات جديدة": "New Accoutns",
     
     // الإعدادات \\
     "النظام": "System",
