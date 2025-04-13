@@ -132,14 +132,18 @@ if(!is_null($account_data)) {
   unset($account_data['google_id']);
 } else {
   // Add account in database \\
-  addAccount($google_data['id'], $google_data['email'], $google_data['name']);
+  addAccount($google_data['id'], $google_data['email'], $google_data['name']);  
 
-  // Save user data \\
+  $account_id = $pdo->lastInsertId();
+
+  // Set default subscription
+  set_default_sub($account_id);
+
   $account_data = [
-    'email' => $google_data['email'],
-    'full_name' => $google_data['name'],
-    'profile_image' => $google_data['picture'],
-    'ban' => null
+    'id' => $account_id,
+    "google_id" => $google_data['id'],
+    "email" => $google_data['email'],
+    "full_name" => $google_data['name']
   ];
 }
 
@@ -153,7 +157,6 @@ if(isset($account_data['admin'])) {
 // Respond with JWT \\
 $payload = json_encode([
   ...$account_data,
-  "profile_image" => $google_data['picture'],
   'sub' => getAccount_subs($account_data['id']),
   'ban' => getBanDetails($account_data['id']),
   'expiry' => $expiry
