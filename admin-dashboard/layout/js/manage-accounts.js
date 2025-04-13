@@ -4,20 +4,6 @@
 const pageContainer = document.querySelector('.pageContainer');
 const accounts_container = document.querySelector('.accounts-container');
 
-// Search elements
-//Input
-const search_input = document.getElementById('searchInput');
-
-//Buttons
-const by_name_btn = document.getElementById('search_by_name');
-const by_id_btn = document.getElementById('search_by_id');
-const by_email_btn = document.getElementById('search_by_email');
-
-/* Nots
-  - Save user data in indexedDB
-  - Create refresh btn to user data
-*/
-
 
 // Create account element
 function createAccountElement({id, full_name, email, entry_date, plans}) {
@@ -33,10 +19,10 @@ function createAccountElement({id, full_name, email, entry_date, plans}) {
       </div>
       <div class="flex column grow-1 fill-width hiddenOver">
         <div class="flex align-center gap-5">
-          <p id="name" title="${name}" class="txt body1 txt-color-gray"></p>
           <div class="id-container">
             <p id="id" class="txt body1"></p>
           </div>
+          <p id="name" title="${name}" class="txt body1 txt-color-gray"></p>
         </div>
         <p id="email" title="${email}" class="txt body1 txt-color-gray"></p>
       </div>
@@ -383,7 +369,6 @@ function createAccountElement({id, full_name, email, entry_date, plans}) {
         let request = await set_sub(id, plan.id, newSubData.cost, expiry);
         
         if(request.error) {
-          pushRealTimeAlert('error', request.error);
           close();
           return;
         }
@@ -556,6 +541,11 @@ function createAccountElement({id, full_name, email, entry_date, plans}) {
   id_element.innerHTML = id;
   email_element.innerHTML = email;
 
+  // Save account data in element
+  element.id = id;
+  element.full_name = full_name;
+  element.email = email;
+
   // Active details button
   detailsBtn.addEventListener('click', details);
   
@@ -588,6 +578,17 @@ async function getAccounts(limit, except_IDs) {
   let request = await ServerFetch(body);
 
   return request;
+}
+
+async function searchAccounts(by, value) {
+  let body = {
+    mode: 'search-accounts',
+    by: by
+  };
+  body[by] = value;
+  body = JSON.stringify(body);
+
+  return await ServerFetch(body);
 }
 
 async function getAccountSub(account_id) {
@@ -664,7 +665,8 @@ async function cancel_sub(account_id) {
 (async ()=>{
   // Get subs plans & accounts 
   let plans = await getsubPlans();
-  const accounts = await getAccounts(9, []);
+  const accounts = await getAccounts(10, []);
+  let accounts_IDs = [];
   
   // Validate accounts & plans
   if( accounts.error ) {
@@ -676,6 +678,14 @@ async function cancel_sub(account_id) {
     return;
   }
 
+  // Get accounts ids
+  accounts_IDs = (()=>{
+    let result = [];
+    accounts.data.forEach(account => result.push(account.id));
+
+    return result;
+  })();
+  
   // Plan id to kay
   plans = (()=>{
     let result = {};
@@ -689,4 +699,123 @@ async function cancel_sub(account_id) {
   // Show all accounts
   accounts.data.forEach(account => createAccountElement({...account, plans: plans}));
   
+  // === Search accounts === \\
+  //Input
+  const search_input = document.getElementById('searchInput');
+  //Buttons
+  const by_name_btn = document.getElementById('search_by_name');
+  const by_id_btn = document.getElementById('search_by_id');
+  const by_email_btn = document.getElementById('search_by_email');
+  const searchBTNs = [by_name_btn, by_id_btn, by_email_btn];
+  
+  let searchMode = 'full_name';
+
+  function reset_searchInput() {
+    search_input.value = '';
+    search_input.dispatchEvent(new Event('input'));
+  }
+  function changeSearchMode(mode, btn) {
+    if(searchMode == mode || !(['full_name', 'id', 'email'].includes(mode))) return;
+
+    // Remove primary color
+    searchBTNs.forEach(btn => {
+      btn.classList.remove('bgc-primary');
+      btn.classList.add('bgc');
+    })
+
+    // Add primary color
+    btn.classList.add('bgc-primary');
+    btn.classList.remove('bgc');
+
+    switch(mode) {
+      case 'id':
+        accounts_container.classList.add('search_by_id');
+        accounts_container.classList.remove('search_by_email');
+
+        search_input.type = 'number'; 
+      break;
+
+      case 'email':
+        accounts_container.classList.add('search_by_email');
+        accounts_container.classList.remove('search_by_id');
+        search_input.type = 'email';
+      break;
+
+      case 'full_name':
+        accounts_container.classList.remove('search_by_email');
+        accounts_container.classList.remove('search_by_id');
+        search_input.type = 'text';
+      break;
+    }
+
+    searchMode = mode;
+    reset_searchInput();
+  }
+
+  // Active search buttons
+  by_id_btn.addEventListener('click', ()=> changeSearchMode('id', by_id_btn));
+  by_email_btn.addEventListener('click', ()=> changeSearchMode('email', by_email_btn));
+  by_name_btn.addEventListener('click', ()=> changeSearchMode('full_name', by_name_btn));
+  
+  
+  async function searchHandel() {
+    let value = search_input.value.trim();
+    let accountsElements = [...accounts_container.querySelectorAll('.account')];
+
+    if(value === '') {
+      accountsElements.forEach(account => account.classList.remove('display-none'));
+      return;
+    }
+
+    value = searchMode == 'id'? parseInt(value) : value;
+
+    
+    // Get searched accounts
+    let searched_accounts = await (async ()=>{
+      let result = [];
+
+      switch (searchMode) {
+        case 'id':
+          result = accountsElements.filter(account => account[searchMode] == value)
+        break;
+          
+        default:
+          result = accountsElements.filter(account => account[searchMode].startsWith(value));
+        break;
+      }
+      
+      console.log(result.length);
+      if(result.length === 0) {
+        let request = await searchAccounts(searchMode, value);
+  
+        if(request.error) {
+          console.log('error');
+          pushRealTimeAlert('error', request.error);
+          return result;
+        }
+
+        result = request.data;
+        result.forEach(account => createAccountElement(account));
+      }
+      
+      return result;
+    })();
+
+    // Search from database
+        
+    accountsElements.forEach(account => {
+      if(searched_accounts.includes(account)) {
+        account.classList.remove('display-none');
+        return;
+      }
+
+      account.classList.add('display-none');
+      
+    });
+    
+
+  }
+
+  // Active search Input
+  search_input.addEventListener('input', debounce(searchHandel, 500))
 })();
